@@ -1,8 +1,8 @@
 # PBR-Notes
-## PBR涉及的公式和知识点太多，在这里做一个总结方便记忆<br>
-本篇是[LearnOpenGL-PBR-理论](https://learnopengl-cn.github.io/07%20PBR/01%20Theory/)的读书笔记<br>
+## 本篇是[LearnOpenGL-PBR-理论](https://learnopengl-cn.github.io/07%20PBR/01%20Theory/)的笔记<br>
+PBR涉及的公式和知识点太多，在这里做一个总结方便记忆<br>
 PBR理论的核心就是一个反射率方程。首先把反射率方程摆在开头，然后对其中元素逐个解读<br>
-`反射率方程(The Reflectance Equation)`<br>
+`反射率方程(The Reflectance Equation)`
 ## Lo(p,ωo) = ∫Ω Fr(p,ωi,ωo) Li(p,ωi) n⋅ωi dωi<br>
 ### 字母解读<br>
 #### `p` 该点(被着色的点)<br>
@@ -14,16 +14,21 @@ PBR理论的核心就是一个反射率方程。首先把反射率方程摆在�
 #### `n` 法线，n⋅ωi(点乘)表示入射光和法线的夹角的余弦，乘上Li以计算入射能量<br>
 #### `Fr` 双向反射分布函数(BRDF)，以下为通常用的Cook-Torrance BRDF模型，它分为漫反射部分和镜面反射部分<br>
 #### Fr = kd Flambert + ks Fcook-torrance<br>
-##### >`kd` `ks` 分别为入射光线中被折射(对应漫反射)和被反射(对应镜面反射)的比例<br>
-##### >`Flambert` 漫反射部分，Flambert = c/π，其中`c`为表面颜色<br>
-##### >`Fcook-torrance` 镜面反射部分，Fcook-torrance = D F G / 4(ωo⋅n)(ωi⋅n)<br>
-###### >>`D`法线分布函数(Normal Distribution Function):<br>
->>>估算在受到表面粗糙度的影响下，取向方向与中间向量一致的微平面的数量。这是用来估算微平面的主要函数。<br>
->>>例:Trowbridge-Reitz GGX法线分布函数 NDFggxtr(n,h,α) = α^2 / π((n·h)^2(α^2-1)+1)^2<br>
+>`kd` `ks` 分别为入射光线中被折射(对应漫反射)和被反射(对应镜面反射)的比例<br>
+>`Flambert` 漫反射部分，Flambert = c/π，其中`c`为表面颜色<br>
+>`Fcook-torrance` 镜面反射部分，Fcook-torrance = D F G / 4(ωo⋅n)(ωi⋅n)<br>
+>>`D` 法线分布函数(Normal Distribution Function):<br>
+>>>估算在受到表面粗糙度的影响下，取向方向与中间向量一致的微平面的数量。这是用来估算微平面的主要函数。它宏观上与粗糙度和观察方向有关<br>
+>>>例(Trowbridge-Reitz GGX法线分布函数): NDFggxtr(n,h,α) = α^2 / π((n·h)^2(α^2-1)+1)^2<br>
 >>>其输入为法线向量n，目标向量h，粗糙度α，它返回一个与h取向一致的微平面的比例(一致的微平面越多则越亮)，取值在0-1之间<br>
-###### >>`F`菲涅尔方程(Fresnel Equation):<br>
->>描述了在不同的表面角下表面所反射的光线所占的比率，当观察角度越倾斜，这个比率越高，即反射光相比折射光越多<br>
->>
+>>`F` 菲涅尔方程(Fresnel Equation):<br>
+>>>描述了在不同的表面角下表面所反射的光线所占的比率，仅与观察方向有关，当观察角度越倾斜，这个比率越高，即反射光相比折射光越多<br>
+>>>例(Fresnel-Schlick近似法):Fschlick(h,v,Fo) = Fo + (1-Fo)(1-(n·v))^5<br>
+>>>其中Fo为基础反射率，即垂直观察时反射光线所占的比率(保底比率)，它是由折射指数计算出的，它是一个三维向量，对于RGB每个通道都有它们的反射率。在计算Fo的过程中还可以引入金属度来优化：由于非金属和金属的基础反射率相差较大，非金属一般为0.04(三通道相同)，而金属为0.5-1.0且不一定三通道相同，即有颜色。因此一种表面，无论是否是金属，都可以用0.04和其表面颜色基于金属度做插值来获得其Fo。表现为F0=mix(0.04,surfaceColor.rgb,metalness);<br>
+>>>n·v为法向量点乘观察向量，即cosθ<br>
+>>`G` 几何函数(Geometry Function)：<br>
+>>>从统计学上近似求得了微平面间相互遮蔽的比率，它与粗糙度和观察方向有关
+>>>例(Schlick-GGX函数): Gschlickggx(n,v,k) = n·v / (n·v)(1-k)+k
 ##### >
 
 
