@@ -34,5 +34,5 @@ k本质上就是粗糙度α，但稍有不同，当该几何函数是针对直�
  史密斯法: Gfinal(n,v,l,k)=Gschlickggx(n,v,k)Gschlickggx(n,l,k)
 其中v是观察方向，l是光照方向<br>
 ## 至此，反射率方程的所有元素介绍完毕，把它完全展开就是下面的样子：
-
+![](https://github.com/SaikaDs/PBR-Notes/blob/master/pic.jpg)
 
