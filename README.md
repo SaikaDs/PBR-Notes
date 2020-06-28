@@ -13,7 +13,7 @@ PBR理论的核心就是一个反射率方程。首先把反射率方程摆在�
 #### `n` 法线，n⋅ωi(点乘)表示入射光和法线的夹角的余弦，乘上Li以计算入射能量<br>
 #### `Fr` 双向反射分布函数(BRDF)，以下为通常用的Cook-Torrance BRDF模型，它分为漫反射部分和镜面反射部分<br>
 #### Fr = kd Flambert + ks Fcook-torrance<br>
-* `kd` `ks` 分别为入射光线中被折射(对应漫反射)和被反射(对应镜面反射)的比例<br>
+* `kd` `ks` 分别为入射光线中被折射(对应漫反射)和被反射(对应镜面反射)的比例，其中ks就是菲涅尔方程的计算结果<br>
 * `Flambert` 漫反射部分，Flambert = c/π，其中`c`为表面颜色<br>
 * `Fcook-torrance` 镜面反射部分，Fcook-torrance = D F G / 4(ωo⋅n)(ωi⋅n)<br>
   * `D` 法线分布函数(Normal Distribution Function):<br>
