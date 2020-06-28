@@ -25,6 +25,7 @@ PBR理论的核心就是一个反射率方程。首先把反射率方程摆在�
 例(Fresnel-Schlick近似法): Fschlick(n,v,Fo) = Fo + (1-Fo)(1-(n·v))^5<br>
 其输入为法线向量n，观察方向向量v，基础反射率Fo，即垂直观察时反射光线所占的比率(保底比率)，它是由折射指数计算出的，它是一个三维向量，对于RGB每个通道都有它们的反射率。在计算Fo的过程中还可以引入金属度来优化：由于非金属和金属的基础反射率相差较大，非金属一般为0.04(三通道相同)，而金属为0.5-1.0且不一定三通道相同，即有颜色。因此一种表面，无论是否是金属，都可以用0.04和其表面颜色基于金属度做插值来获得其Fo。表现为F0=mix(0.04,surfaceColor.rgb,metalness);<br>
 n·v为法向量点乘观察向量，即cosθ<br>
+注：菲涅尔方程的计算结果F就是brdf中的ks(反射光比例)，因此实际应用中Fr = kd Flambert + ks Fcook-torrance中的ks应该去掉，因为在Fcook-torrance已经有一个因子F了。<br>
   * `G` 几何函数(Geometry Function)：<br>
 从统计学上近似求得了微平面间相互遮蔽的比率，它与粗糙度、观察方向和光照方向有关<br>
 例(Schlick-GGX函数): Gschlickggx(n,h,k) = n·h / (n·h)(1-k)+k<br>
