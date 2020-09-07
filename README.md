@@ -16,7 +16,7 @@ PBR理论的核心就是一个反射率方程。首先把反射率方程摆在�
 * `kd` `ks` 分别为入射光线中被折射(对应漫反射)和被反射(对应镜面反射)的比例，其中ks就是菲涅尔方程的计算结果<br>
 * `Flambert` 漫反射部分，Flambert = c/π，其中`c`为表面颜色<br>
 * `Fcook-torrance` 镜面反射部分，Fcook-torrance = D F G / 4(ωo⋅n)(ωi⋅n)<br>
-<br>
+
   ####    `D` 法线分布函数(Normal Distribution Function):<br>
 估算在受到表面粗糙度的影响下，取向方向与中间向量一致的微平面的数量。这是用来估算微平面的主要函数。它宏观上与粗糙度和观察方向有关<br>
 例(Trowbridge-Reitz GGX法线分布函数): NDFggxtr(n,h,α) = α^2 / π((n·h)^2(α^2-1)+1)^2<br>
